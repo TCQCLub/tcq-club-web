@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./App.css";
-
 import YouTubeLatest from "./components/YouTubeLatest";
-import WelcomeModal from "./components/WelcomeModal";
+import { useTranslation } from "react-i18next";
 
 export default function App() {
   const [typingDone, setTypingDone] = useState(false);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const timer = setTimeout(() => setTypingDone(true), 4000);
@@ -37,7 +37,7 @@ export default function App() {
 
           {/* Subtítulo */}
           <p className={`hero-subtitle typewriter ${typingDone ? "done" : ""}`}>
-            Cultura Techno, Buenos Aires, Argentina
+            {t("subtitle")}
           </p>
 
           {/* Botones */}
@@ -48,7 +48,7 @@ export default function App() {
               rel="noopener noreferrer"
               className="btn-modern"
             >
-              🎟 Comprar en Venti
+              {t("buy")}
             </a>
 
             <button
@@ -57,12 +57,12 @@ export default function App() {
                 window.open("https://forms.gle/wE98uN5FUmfVXrYv7", "_blank")
               }
             >
-              📩 Anotarme en Lista
+              {t("signup")}
             </button>
           </div>
 
           {/* Redes sociales */}
-          <div className="d-flex gap-4 justify-content-center social-links">
+          <div className="d-flex gap-4 justify-content-center social-links mb-3">
             <a
               href="https://www.instagram.com/tcqlub"
               target="_blank"
@@ -88,23 +88,42 @@ export default function App() {
               <i className="bi bi-youtube"></i>
             </a>
           </div>
+
+          {/* Selector de idioma */}
+          <div className="d-flex gap-2 mt-3">
+            <button
+              onClick={() => i18n.changeLanguage("es")}
+              className="btn btn-sm btn-outline-light"
+            >
+              🇦🇷 ES
+            </button>
+            <button
+              onClick={() => i18n.changeLanguage("en")}
+              className="btn btn-sm btn-outline-light"
+            >
+              🇬🇧 EN
+            </button>
+            <button
+              onClick={() => i18n.changeLanguage("pt")}
+              className="btn btn-sm btn-outline-light"
+            >
+              🇧🇷 PT
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Último Video */}
+      {/* Último video */}
       <YouTubeLatest />
 
       {/* Footer */}
       <footer className="footer-modern text-white text-center py-4">
         <div className="container">
           <p className="mb-1 small">
-            © {new Date().getFullYear()} TCQ Club · Cultura Techno en Buenos Aires
+            © {new Date().getFullYear()} TCQ Club · {t("subtitle")}
           </p>
         </div>
       </footer>
-
-      {/* Modal de bienvenida */}
-      <WelcomeModal />
     </>
   );
 }
