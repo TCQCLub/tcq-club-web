@@ -98,3 +98,18 @@ app.get("/api/youtube/latest", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Backend escuchando en http://localhost:${PORT}`);
 });
+
+// Suscripciones temporales (en memoria)
+let subscribers = [];
+
+app.post("/subscribe", (req, res) => {
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: "Faltan datos" });
+  }
+
+  subscribers.push({ name, email, date: new Date() });
+  console.log("🆕 Nuevo suscriptor:", { name, email });
+  res.json({ success: true });
+});

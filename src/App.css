@@ -1,196 +1,185 @@
-/* === Forzar fuente global === */
-* {
-  font-family: "Roboto", sans-serif !important;
+/* --- Navbar estilo Artlab --- */
+.artlab-nav {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
 }
 
-/* === General === */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Roboto", sans-serif;
-  color: #fff;
-  background: url("/backgroundHero.jpg") no-repeat center center fixed;
-  background-size: cover;
+.artlab-nav.scrolled {
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-.hero-logo {
-  max-width: 220px;
-  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.6));
+.artlab-nav .navbar-brand img {
+  height: 40px;
+  object-fit: contain;
 }
 
-/* === Hero con overlay + noise === */
+.artlab-nav .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  margin: 0 8px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.artlab-nav .nav-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #ff007a;
+  transition: width 0.3s;
+  margin-top: 3px;
+}
+
+.artlab-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+.artlab-nav .nav-link:hover {
+  color: #ff007a !important;
+}
+
+/* --- Botones pill --- */
+.btn-pill {
+  border-radius: 50px;
+  padding: 8px 18px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.btn-gradient {
+  background: linear-gradient(45deg, #ff007a, #ff8c00);
+  color: #fff !important;
+  border: none;
+}
+
+.btn-gradient:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-outline-pill {
+  border: 2px solid #ff007a;
+  color: #ff007a !important;
+  background: transparent;
+}
+
+.btn-outline-pill:hover {
+  background: #ff007a;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+/* --- Hero Section --- */
 header {
   position: relative;
-  background-size: cover;
-  background-position: center;
 }
 
-.overlay {
+header .overlay {
   position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  z-index: 1;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
 }
 
-/* Capa de ruido encima del fondo */
-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("/noise.png"); /* coloca aquí tu noise.png en public */
-  opacity: 0.12; /* ajustá la intensidad del ruido */
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  z-index: 2;
-}
-
-header .container {
-  position: relative;
-  z-index: 3; /* asegura que el contenido esté por encima del noise */
-}
-
-/* === Texto Hero === */
+/* Subtítulo con efecto glitch */
 .hero-subtitle {
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  margin-bottom: 1.5rem;
-}
-
-/* Efecto máquina de escribir */
-.typewriter {
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 2px solid #fff;
-  animation: typing 4s steps(35, end) forwards, blink 0.75s step-end infinite;
-}
-
-@keyframes typing {
-  from { width: 0; }
-  to { width: 35ch; }
-}
-
-@keyframes blink {
-  from, to { border-color: transparent; }
-  50% { border-color: #fff; }
-}
-
-/* Al terminar la animación, ocultamos el cursor */
-.typewriter.finished {
-  border-right: none !important;
-}
-
-/* === Botones modernos === */
-.btn-modern {
-  padding: 0.7rem 1.8rem;
-  border-radius: 30px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  border: none;
-  background: linear-gradient(135deg, #574950, #8b5cf6);
-  color: white;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 0.9rem;
-}
-
-.btn-modern:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.308);
-  color: white;
-}
-
-.btn-modern-outline {
-  padding: 0.7rem 1.8rem;
-  border-radius: 30px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  border: 2px solid white;
-  background: transparent;
-  color: white;
-  transition: all 0.4s ease;
-  text-decoration: none;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
   position: relative;
-  overflow: hidden;
-  z-index: 1;
-  font-size: 0.9rem;
-}
-
-.btn-modern-outline:hover {
   color: #fff;
-  border-color: transparent;
+  animation: glitch 2s infinite;
 }
 
-.btn-modern-outline::before {
-  content: "";
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #574950, #8b5cf6);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
-  z-index: -1;
-  border-radius: 30px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
 }
 
-.btn-modern-outline:hover::before {
-  transform: scaleX(1);
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #ff00c1;
+  animation: glitchTop 2s infinite linear alternate-reverse;
 }
 
-/* === Modal === */
-.modal-content {
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #00fff9;
+  animation: glitchBottom 2s infinite linear alternate-reverse;
 }
 
-/* Redes sociales base */
-.social-link {
-  font-size: 1.8rem;
-  transition: all 0.3s ease;
+@keyframes glitch {
+  0% { transform: none; }
+  20% { transform: skew(0.5deg, 0.5deg); }
+  40% { transform: skew(-0.5deg, -0.5deg); }
+  60% { transform: none; }
+  80% { transform: skew(0.5deg, -0.5deg); }
+  100% { transform: none; }
 }
 
-/* Colores oficiales */
-.social-link.instagram { color: #fff; }
-.social-link.linkedin { color: #fff; }
-.social-link.facebook { color: #1877F2; }
+@keyframes glitchTop {
+  0% { clip: rect(0, 9999px, 0, 0); }
+  20% { clip: rect(0, 9999px, 40px, 0); }
+  40% { clip: rect(0, 9999px, 0, 0); }
+  60% { clip: rect(0, 9999px, 30px, 0); }
+  80% { clip: rect(0, 9999px, 0, 0); }
+  100% { clip: rect(0, 9999px, 20px, 0); }
+}
 
-/* Hover con glow */
-.social-link.instagram:hover {
-  text-shadow: 0 0 12px rgba(225, 48, 108, 0.8);
-  transform: translateY(-2px) scale(1.15);
+@keyframes glitchBottom {
+  0% { clip: rect(0, 9999px, 0, 0); }
+  20% { clip: rect(70px, 9999px, 90px, 0); }
+  40% { clip: rect(0, 9999px, 0, 0); }
+  60% { clip: rect(40px, 9999px, 60px, 0); }
+  80% { clip: rect(0, 9999px, 0, 0); }
+  100% { clip: rect(10px, 9999px, 30px, 0); }
 }
-.social-link.linkedin:hover {
-  text-shadow: 0 0 12px rgba(10, 102, 194, 0.8);
-  transform: translateY(-2px) scale(1.15);
-}
-.social-link.facebook:hover {
-  text-shadow: 0 0 12px rgba(24, 119, 242, 0.8);
-  transform: translateY(-2px) scale(1.15);
-}
-/* === Footer moderno === */
+
+/* --- Footer --- */
 .footer-modern {
-  background: rgba(0, 0, 0, 0.85);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #000;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.85rem;
 }
 
-.footer-modern p {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+/* --- Responsivo --- */
+@media (max-width: 768px) {
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
+}
+/* --- Hero Subtítulo con fade-in --- */
+.hero-subtitle {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 2s ease forwards;
 }
 
-
-
-/* Colores oficiales */
-.social-link {
-  font-size: 1.6rem;
-  transition: all 0.3s ease;
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.social-link.instagram { color: #ffffff; }
-.social-link.linkedin { color: #edeff1; }
-.social-link.youtube { color: #ffffff; }
-
-/* Hover */
-.social-link:hover {
-  transform: translateY(-3px) scale(1.1);
-  text-shadow: 0 0 12px currentColor;
+/* Ajuste responsive */
+@media (max-width: 768px) {
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
 }
