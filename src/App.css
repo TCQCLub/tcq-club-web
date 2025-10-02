@@ -1,0 +1,196 @@
+/* === Forzar fuente global === */
+* {
+  font-family: "Roboto", sans-serif !important;
+}
+
+/* === General === */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  color: #fff;
+  background: url("/backgroundHero.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.hero-logo {
+  max-width: 220px;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.6));
+}
+
+/* === Hero con overlay + noise === */
+header {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1;
+}
+
+/* Capa de ruido encima del fondo */
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/noise.png"); /* coloca aquí tu noise.png en public */
+  opacity: 0.12; /* ajustá la intensidad del ruido */
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 2;
+}
+
+header .container {
+  position: relative;
+  z-index: 3; /* asegura que el contenido esté por encima del noise */
+}
+
+/* === Texto Hero === */
+.hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  margin-bottom: 1.5rem;
+}
+
+/* Efecto máquina de escribir */
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #fff;
+  animation: typing 4s steps(35, end) forwards, blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 35ch; }
+}
+
+@keyframes blink {
+  from, to { border-color: transparent; }
+  50% { border-color: #fff; }
+}
+
+/* Al terminar la animación, ocultamos el cursor */
+.typewriter.finished {
+  border-right: none !important;
+}
+
+/* === Botones modernos === */
+.btn-modern {
+  padding: 0.7rem 1.8rem;
+  border-radius: 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: none;
+  background: linear-gradient(135deg, #574950, #8b5cf6);
+  color: white;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.9rem;
+}
+
+.btn-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.308);
+  color: white;
+}
+
+.btn-modern-outline {
+  padding: 0.7rem 1.8rem;
+  border-radius: 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  font-size: 0.9rem;
+}
+
+.btn-modern-outline:hover {
+  color: #fff;
+  border-color: transparent;
+}
+
+.btn-modern-outline::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #574950, #8b5cf6);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+  z-index: -1;
+  border-radius: 30px;
+}
+
+.btn-modern-outline:hover::before {
+  transform: scaleX(1);
+}
+
+/* === Modal === */
+.modal-content {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Redes sociales base */
+.social-link {
+  font-size: 1.8rem;
+  transition: all 0.3s ease;
+}
+
+/* Colores oficiales */
+.social-link.instagram { color: #fff; }
+.social-link.linkedin { color: #fff; }
+.social-link.facebook { color: #1877F2; }
+
+/* Hover con glow */
+.social-link.instagram:hover {
+  text-shadow: 0 0 12px rgba(225, 48, 108, 0.8);
+  transform: translateY(-2px) scale(1.15);
+}
+.social-link.linkedin:hover {
+  text-shadow: 0 0 12px rgba(10, 102, 194, 0.8);
+  transform: translateY(-2px) scale(1.15);
+}
+.social-link.facebook:hover {
+  text-shadow: 0 0 12px rgba(24, 119, 242, 0.8);
+  transform: translateY(-2px) scale(1.15);
+}
+/* === Footer moderno === */
+.footer-modern {
+  background: rgba(0, 0, 0, 0.85);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-modern p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+
+
+/* Colores oficiales */
+.social-link {
+  font-size: 1.6rem;
+  transition: all 0.3s ease;
+}
+
+.social-link.instagram { color: #ffffff; }
+.social-link.linkedin { color: #edeff1; }
+.social-link.youtube { color: #ffffff; }
+
+/* Hover */
+.social-link:hover {
+  transform: translateY(-3px) scale(1.1);
+  text-shadow: 0 0 12px currentColor;
+}
