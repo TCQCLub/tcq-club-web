@@ -64,7 +64,7 @@ export default function App() {
           {/* Redes sociales */}
           <div className="d-flex gap-4 justify-content-center social-links">
             <a
-              href="https://www.instagram.com/tcq_club"
+              href="https://www.instagram.com/tcqlub"
               target="_blank"
               rel="noopener noreferrer"
               className="social-link instagram"
@@ -72,7 +72,7 @@ export default function App() {
               <i className="bi bi-instagram"></i>
             </a>
             <a
-              href="https://www.linkedin.com/company/tcq-club"
+              href="https://www.linkedin.com/company/tcqlub"
               target="_blank"
               rel="noopener noreferrer"
               className="social-link linkedin"
