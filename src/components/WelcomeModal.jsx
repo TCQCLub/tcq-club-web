@@ -23,8 +23,7 @@ export default function WelcomeModal() {
         <div className="modal-content bg-dark text-white text-center p-4">
           <h2 className="mb-3">TE DAMOS LA BIENVENIDA</h2>
           <p className="mb-3">
-            El epicentro del Techno en Buenos Aires.  
-            Explora nuestros eventos y unite a la cultura TCQ.
+            ESTE FINDE , NUEVO FORMATO BOILER y KID RIOT 50 AÑOS
           </p>
           <button
             className="btn-modern w-100"
