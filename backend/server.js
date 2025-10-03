@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { MercadoPagoConfig, Preference } from "mercadopago";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -12,14 +13,32 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
+// ⚡ Conexión a MongoDB Atlas
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("✅ Conectado a MongoDB Atlas"))
+  .catch((err) => console.error("❌ Error conectando a MongoDB:", err));
+
+// 📌 Definir modelo de Suscriptores
+const subscriberSchema = new mongoose.Schema({
+  nombre: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  ciudad: { type: String },
+  edad: { type: String }, // guardamos como texto (ej: "18-24")
+  intereses: { type: [String] }, // array de strings
+  date: { type: Date, default: Date.now },
+});
+
+const Subscriber = mongoose.model("Subscriber", subscriberSchema);
+
 // ⚡ Configuración Mercado Pago
 const client = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN, // tomado de .env
+  accessToken: process.env.MP_ACCESS_TOKEN,
 });
 
 // ✅ Ruta de prueba
 app.get("/", (req, res) => {
-  res.send("✅ Backend funcionando con Express, Mercado Pago, YouTube API y Suscripciones");
+  res.send("✅ Backend funcionando con Express, Mercado Pago, YouTube API y MongoDB");
 });
 
 // 🛒 Crear preferencia de pago
@@ -55,7 +74,7 @@ app.post("/create_preference", async (req, res) => {
   }
 });
 
-// 🎥 Último video de YouTube con fallback fijo
+// 🎥 Último video de YouTube
 app.get("/api/youtube/latest", async (req, res) => {
   try {
     const apiKey = process.env.YOUTUBE_API_KEY;
@@ -74,7 +93,6 @@ app.get("/api/youtube/latest", async (req, res) => {
         thumbnail: latestVideo.snippet.thumbnails.high.url,
       });
     } else {
-      // ⚡ Fallback si no hay videos
       res.json({
         videoId: "0OHG46VUJkI",
         title: "Último video TCQ",
@@ -83,8 +101,6 @@ app.get("/api/youtube/latest", async (req, res) => {
     }
   } catch (error) {
     console.error("❌ Error consultando YouTube:", error);
-
-    // ⚡ Fallback si la API rompe
     res.json({
       videoId: "0OHG46VUJkI",
       title: "Último video TCQ",
@@ -93,27 +109,43 @@ app.get("/api/youtube/latest", async (req, res) => {
   }
 });
 
-// 📨 Suscripciones (temporal en memoria)
-let subscribers = [];
+// 📨 Guardar suscripción en MongoDB
+app.post("/subscribe", async (req, res) => {
+  try {
+    const { nombre, email, ciudad, edad, intereses } = req.body;
 
-app.post("/subscribe", (req, res) => {
-  const { nombre, email, preferencias } = req.body;
+    if (!nombre || !email) {
+      return res.status(400).json({ error: "Faltan datos (nombre/email)" });
+    }
 
-  if (!nombre || !email) {
-    return res.status(400).json({ error: "Faltan datos (nombre/email)" });
+    const newSub = new Subscriber({ nombre, email, ciudad, edad, intereses });
+    await newSub.save();
+
+    console.log("🆕 Nuevo suscriptor:", newSub);
+    res.json({ success: true, message: "Suscripción guardada en MongoDB" });
+  } catch (err) {
+    if (err.code === 11000) {
+      return res.status(409).json({ error: "Este email ya está suscrito" });
+    }
+    console.error("❌ Error guardando suscripción:", err);
+    res.status(500).json({ error: "Error interno en el servidor" });
   }
+});
 
-  // Verificar duplicados
-  const exists = subscribers.find((s) => s.email === email);
-  if (exists) {
-    return res.status(409).json({ error: "Este email ya está suscrito" });
+// 📋 Listar todos los suscriptores
+app.get("/subscribers", async (req, res) => {
+  try {
+    const subs = await Subscriber.find().sort({ date: -1 });
+    res.json(subs);
+  } catch (err) {
+    console.error("❌ Error obteniendo suscriptores:", err);
+    res.status(500).json({ error: "Error obteniendo suscriptores" });
   }
+});
 
-  const newSub = { nombre, email, preferencias, date: new Date() };
-  subscribers.push(newSub);
-
-  console.log("🆕 Nuevo suscriptor:", newSub);
-  res.json({ success: true, message: "Suscripción guardada" });
+// 🔧 Evitar error Chrome DevTools
+app.get("/.well-known/appspecific/com.chrome.devtools.json", (req, res) => {
+  res.status(204).end();
 });
 
 // 🚀 Levantar servidor

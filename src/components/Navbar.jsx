@@ -80,13 +80,9 @@ export default function Navbar() {
               </a>
             </li>
             <li className="nav-item">
-              <button
-                className="btn btn-pill btn-outline-pill"
-                data-bs-toggle="modal"
-                data-bs-target="#subscribeModal"
-              >
+              <Link className="btn btn-pill btn-outline-pill" to="/suscripcion">
                 📩 Suscripción
-              </button>
+              </Link>
             </li>
           </ul>
         </div>
