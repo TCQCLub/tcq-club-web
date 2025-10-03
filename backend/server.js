@@ -4,6 +4,7 @@ import cors from "cors";
 import { MercadoPagoConfig, Preference } from "mercadopago";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import { Parser } from "json2csv";
 
 dotenv.config();
 
@@ -24,8 +25,8 @@ const subscriberSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   ciudad: { type: String },
-  edad: { type: String }, // guardamos como texto (ej: "18-24")
-  intereses: { type: [String] }, // array de strings
+  edad: { type: String },
+  intereses: { type: [String] },
   date: { type: Date, default: Date.now },
 });
 
@@ -45,7 +46,6 @@ app.get("/", (req, res) => {
 app.post("/create_preference", async (req, res) => {
   try {
     const { title, quantity, price } = req.body;
-
     const preference = new Preference(client);
 
     const result = await preference.create({
@@ -143,9 +143,22 @@ app.get("/subscribers", async (req, res) => {
   }
 });
 
-// 🔧 Evitar error Chrome DevTools
-app.get("/.well-known/appspecific/com.chrome.devtools.json", (req, res) => {
-  res.status(204).end();
+// 📤 Exportar suscriptores a CSV
+app.get("/admin/export-subscribers", async (req, res) => {
+  try {
+    const subs = await Subscriber.find().sort({ date: -1 });
+    const fields = ["nombre", "email", "ciudad", "edad", "intereses", "date"];
+    const opts = { fields };
+    const parser = new Parser(opts);
+    const csv = parser.parse(subs);
+
+    res.header("Content-Type", "text/csv");
+    res.attachment("suscriptores.csv");
+    return res.send(csv);
+  } catch (err) {
+    console.error("❌ Error exportando CSV:", err);
+    res.status(500).json({ error: "Error exportando CSV" });
+  }
 });
 
 // 🚀 Levantar servidor

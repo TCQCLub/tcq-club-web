@@ -18,11 +18,17 @@ import Merch from "./components/pages/Merch";
 import FractalBar from "./components/pages/FractalBar";
 import Events from "./components/pages/Events";
 import Suscripcion from "./components/pages/Suscripcion";
+import AdminLogin from "./components/pages/AdminLogin";
+import AdminSubscribers from "./components/pages/AdminSubscribers";
+
+// Importamos el protector
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
     <Router>
       <Navbar />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/nosotros" element={<Nosotros />} />
@@ -32,7 +38,18 @@ export default function App() {
         <Route path="/merch" element={<Merch />} />
         <Route path="/fractalbar" element={<FractalBar />} />
         <Route path="/events" element={<Events />} />
-         <Route path="/suscripcion" element={<Suscripcion />} />
+        <Route path="/suscripcion" element={<Suscripcion />} />
+        
+        {/* Admin */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/subscribers"
+          element={
+            <ProtectedRoute>
+              <AdminSubscribers />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       <WelcomeModal />
