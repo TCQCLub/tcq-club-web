@@ -1,5 +1,6 @@
 // src/components/Navbar.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -7,15 +8,15 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top artlab-nav">
       <div className="container">
         {/* Logo */}
-        <a className="navbar-brand" href="#home">
+        <Link className="navbar-brand" to="/">
           <img
             src="/logo-tcq-transparenteblanco.svg"
             alt="TCQ Club"
             height="40"
           />
-        </a>
+        </Link>
 
-        {/* Botón hamburguesa (mobile) */}
+        {/* Hamburguesa mobile */}
         <button
           className="navbar-toggler"
           type="button"
@@ -30,32 +31,44 @@ export default function Navbar() {
 
         {/* Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav ms-auto gap-3">
             <li className="nav-item">
-              <a className="nav-link" href="#nosotros">About</a>
+              <Link className="nav-link modern-link" to="/nosotros">
+                Nosotros
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#booking">Booking Artist</a>
+              <Link className="nav-link modern-link" to="/booking">
+                Booking Artist
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#label">Label</a>
+              <Link className="nav-link modern-link" to="/label">
+                Label
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#streaming">Streaming</a>
+              <Link className="nav-link modern-link" to="/streaming">
+                Streaming
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#merch">Merch</a>
+              <Link className="nav-link modern-link" to="/merch">
+                Merch
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#fractalbar">Fractal Bar</a>
+              <Link className="nav-link modern-link" to="/fractalbar">
+                Fractal Bar
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#events">Events</a>
+              <Link className="nav-link modern-link" to="/events">
+                Events
+              </Link>
             </li>
-          </ul>
 
-          {/* Botones a la derecha */}
-          <ul className="navbar-nav ms-auto align-items-center gap-2">
+            {/* Botones especiales */}
             <li className="nav-item">
               <a
                 className="btn btn-pill btn-gradient"

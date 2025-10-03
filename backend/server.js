@@ -2,7 +2,6 @@
 import express from "express";
 import cors from "cors";
 import { MercadoPagoConfig, Preference } from "mercadopago";
-import fetch from "node-fetch";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -20,7 +19,7 @@ const client = new MercadoPagoConfig({
 
 // ✅ Ruta de prueba
 app.get("/", (req, res) => {
-  res.send("✅ Backend funcionando con Mercado Pago v2 y YouTube API (con fallback)");
+  res.send("✅ Backend funcionando con Express, Mercado Pago, YouTube API y Suscripciones");
 });
 
 // 🛒 Crear preferencia de pago
@@ -94,22 +93,30 @@ app.get("/api/youtube/latest", async (req, res) => {
   }
 });
 
-// 🚀 Levantar servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Backend escuchando en http://localhost:${PORT}`);
-});
-
-// Suscripciones temporales (en memoria)
+// 📨 Suscripciones (temporal en memoria)
 let subscribers = [];
 
 app.post("/subscribe", (req, res) => {
-  const { name, email } = req.body;
+  const { nombre, email, preferencias } = req.body;
 
-  if (!name || !email) {
-    return res.status(400).json({ error: "Faltan datos" });
+  if (!nombre || !email) {
+    return res.status(400).json({ error: "Faltan datos (nombre/email)" });
   }
 
-  subscribers.push({ name, email, date: new Date() });
-  console.log("🆕 Nuevo suscriptor:", { name, email });
-  res.json({ success: true });
+  // Verificar duplicados
+  const exists = subscribers.find((s) => s.email === email);
+  if (exists) {
+    return res.status(409).json({ error: "Este email ya está suscrito" });
+  }
+
+  const newSub = { nombre, email, preferencias, date: new Date() };
+  subscribers.push(newSub);
+
+  console.log("🆕 Nuevo suscriptor:", newSub);
+  res.json({ success: true, message: "Suscripción guardada" });
+});
+
+// 🚀 Levantar servidor
+app.listen(PORT, () => {
+  console.log(`🚀 Backend escuchando en http://localhost:${PORT}`);
 });

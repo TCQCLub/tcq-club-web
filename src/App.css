@@ -88,7 +88,7 @@ header .overlay {
   background: rgba(0, 0, 0, 0.6);
 }
 
-/* Subtítulo con efecto glitch */
+/* --- Hero Subtítulo con efecto glitch --- */
 .hero-subtitle {
   font-size: 2rem;
   font-weight: bold;
@@ -98,8 +98,8 @@ header .overlay {
   animation: glitch 2s infinite;
 }
 
-.glitch::before,
-.glitch::after {
+.hero-subtitle.glitch::before,
+.hero-subtitle.glitch::after {
   content: attr(data-text);
   position: absolute;
   left: 0;
@@ -108,13 +108,13 @@ header .overlay {
   clip: rect(0, 900px, 0, 0);
 }
 
-.glitch::before {
+.hero-subtitle.glitch::before {
   left: 2px;
   text-shadow: -2px 0 #ff00c1;
   animation: glitchTop 2s infinite linear alternate-reverse;
 }
 
-.glitch::after {
+.hero-subtitle.glitch::after {
   left: -2px;
   text-shadow: -2px 0 #00fff9;
   animation: glitchBottom 2s infinite linear alternate-reverse;
@@ -154,30 +154,16 @@ header .overlay {
   font-size: 0.85rem;
 }
 
+/* --- Ajustes por el navbar fijo --- */
+body {
+  padding-top: 80px; /* altura aprox. del navbar */
+}
+
+h1, h2, section {
+  scroll-margin-top: 100px; /* evita que el navbar tape los títulos */
+}
+
 /* --- Responsivo --- */
-@media (max-width: 768px) {
-  .hero-subtitle {
-    font-size: 1.3rem;
-  }
-}
-/* --- Hero Subtítulo con fade-in --- */
-.hero-subtitle {
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: 2px;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 2s ease forwards;
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Ajuste responsive */
 @media (max-width: 768px) {
   .hero-subtitle {
     font-size: 1.3rem;
