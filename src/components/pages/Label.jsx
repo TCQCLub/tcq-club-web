@@ -10,7 +10,6 @@ export default function Label() {
           Nuestra <strong>discográfica</strong> es el núcleo creativo de TCQ Club.  
           A través de nuestro <em>label</em> impulsamos lanzamientos en 
           <strong> techno</strong>, <strong>house</strong>, 
-          <strong> progressive</strong> y <strong>hardtechno</strong>, 
           distribuidos en las principales plataformas digitales.  
           Exportamos el sonido underground porteño al mundo.
         </p>
