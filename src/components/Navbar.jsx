@@ -76,7 +76,7 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                🎟 Tickets
+                EVENTOS/QR
               </a>
             </li>
             <li className="nav-item">
