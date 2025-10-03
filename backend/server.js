@@ -1,167 +1,197 @@
-// backend/server.js
-import express from "express";
-import cors from "cors";
-import { MercadoPagoConfig, Preference } from "mercadopago";
-import dotenv from "dotenv";
-import mongoose from "mongoose";
-import { Parser } from "json2csv";
+import React, { useState } from "react";
+import API_BASE_URL from "../../config";
 
-dotenv.config();
+export default function Suscripcion() {
+  const [formData, setFormData] = useState({
+    nombre: "",
+    email: "",
+    ciudad: "",
+    edad: "",
+    intereses: [],
+  });
+  const [toastVisible, setToastVisible] = useState(false);
 
-const app = express();
-const PORT = process.env.PORT || 4000;
-
-app.use(cors());
-app.use(express.json());
-
-// ⚡ Conexión a MongoDB Atlas
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("✅ Conectado a MongoDB Atlas"))
-  .catch((err) => console.error("❌ Error conectando a MongoDB:", err));
-
-// 📌 Definir modelo de Suscriptores
-const subscriberSchema = new mongoose.Schema({
-  nombre: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  ciudad: { type: String },
-  edad: { type: String },
-  intereses: { type: [String] },
-  date: { type: Date, default: Date.now },
-});
-
-const Subscriber = mongoose.model("Subscriber", subscriberSchema);
-
-// ⚡ Configuración Mercado Pago
-const client = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN,
-});
-
-// ✅ Ruta de prueba
-app.get("/", (req, res) => {
-  res.send("✅ Backend funcionando con Express, Mercado Pago, YouTube API y MongoDB");
-});
-
-// 🛒 Crear preferencia de pago
-app.post("/create_preference", async (req, res) => {
-  try {
-    const { title, quantity, price } = req.body;
-    const preference = new Preference(client);
-
-    const result = await preference.create({
-      body: {
-        items: [
-          {
-            title,
-            quantity,
-            currency_id: "ARS",
-            unit_price: Number(price),
-          },
-        ],
-        back_urls: {
-          success: "http://localhost:5173/success",
-          failure: "http://localhost:5173/failure",
-          pending: "http://localhost:5173/pending",
-        },
-        auto_return: "approved",
-      },
-    });
-
-    res.json({ id: result.id });
-  } catch (error) {
-    console.error("❌ Error creando preferencia:", error);
-    res.status(500).json({ error: "Error al crear preferencia" });
-  }
-});
-
-// 🎥 Último video de YouTube
-app.get("/api/youtube/latest", async (req, res) => {
-  try {
-    const apiKey = process.env.YOUTUBE_API_KEY;
-    const channelId = process.env.YOUTUBE_CHANNEL_ID;
-
-    const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&order=date&part=snippet&type=video&maxResults=1`;
-
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (data.items && data.items.length > 0) {
-      const latestVideo = data.items[0];
-      res.json({
-        videoId: latestVideo.id.videoId,
-        title: latestVideo.snippet.title,
-        thumbnail: latestVideo.snippet.thumbnails.high.url,
-      });
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      setFormData((prev) => ({
+        ...prev,
+        intereses: checked
+          ? [...prev.intereses, value]
+          : prev.intereses.filter((i) => i !== value),
+      }));
     } else {
-      res.json({
-        videoId: "0OHG46VUJkI",
-        title: "Último video TCQ",
-        thumbnail: "https://img.youtube.com/vi/0OHG46VUJkI/hqdefault.jpg",
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
+
+      if (res.ok) {
+        setToastVisible(true);
+        setFormData({
+          nombre: "",
+          email: "",
+          ciudad: "",
+          edad: "",
+          intereses: [],
+        });
+
+        setTimeout(() => setToastVisible(false), 4000); // Se oculta solo
+      } else {
+        alert("⚠️ Hubo un error en la suscripción");
+      }
+    } catch (err) {
+      console.error("❌ Error en fetch:", err);
+      alert("❌ Error de conexión con el servidor");
     }
-  } catch (error) {
-    console.error("❌ Error consultando YouTube:", error);
-    res.json({
-      videoId: "0OHG46VUJkI",
-      title: "Último video TCQ",
-      thumbnail: "https://img.youtube.com/vi/0OHG46VUJkI/hqdefault.jpg",
-    });
-  }
-});
+  };
 
-// 📨 Guardar suscripción en MongoDB
-app.post("/subscribe", async (req, res) => {
-  try {
-    const { nombre, email, ciudad, edad, intereses } = req.body;
+  return (
+    <div className="container py-5">
+      <h2 className="text-center mb-4">📝 Suscribite a TCQ Club</h2>
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto"
+        style={{ maxWidth: "600px" }}
+      >
+        <div className="mb-3">
+          <input
+            type="text"
+            name="nombre"
+            className="form-control"
+            placeholder="Nombre"
+            value={formData.nombre}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-    if (!nombre || !email) {
-      return res.status(400).json({ error: "Faltan datos (nombre/email)" });
-    }
+        <div className="mb-3">
+          <input
+            type="email"
+            name="email"
+            className="form-control"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-    const newSub = new Subscriber({ nombre, email, ciudad, edad, intereses });
-    await newSub.save();
+        <div className="mb-3">
+          <input
+            type="text"
+            name="ciudad"
+            className="form-control"
+            placeholder="Ciudad"
+            value={formData.ciudad}
+            onChange={handleChange}
+          />
+        </div>
 
-    console.log("🆕 Nuevo suscriptor:", newSub);
-    res.json({ success: true, message: "Suscripción guardada en MongoDB" });
-  } catch (err) {
-    if (err.code === 11000) {
-      return res.status(409).json({ error: "Este email ya está suscrito" });
-    }
-    console.error("❌ Error guardando suscripción:", err);
-    res.status(500).json({ error: "Error interno en el servidor" });
-  }
-});
+        <div className="mb-3">
+          <label className="form-label">Edad</label>
+          <select
+            name="edad"
+            className="form-select"
+            value={formData.edad}
+            onChange={handleChange}
+          >
+            <option value="">Seleccionar</option>
+            <option value="18-24">18-24</option>
+            <option value="25-34">25-34</option>
+            <option value="35-44">35-44</option>
+            <option value="45+">45+</option>
+          </select>
+        </div>
 
-// 📋 Listar todos los suscriptores
-app.get("/subscribers", async (req, res) => {
-  try {
-    const subs = await Subscriber.find().sort({ date: -1 });
-    res.json(subs);
-  } catch (err) {
-    console.error("❌ Error obteniendo suscriptores:", err);
-    res.status(500).json({ error: "Error obteniendo suscriptores" });
-  }
-});
+        <div className="mb-3">
+          <label className="form-label">Intereses</label>
 
-// 📤 Exportar suscriptores a CSV
-app.get("/admin/export-subscribers", async (req, res) => {
-  try {
-    const subs = await Subscriber.find().sort({ date: -1 });
-    const fields = ["nombre", "email", "ciudad", "edad", "intereses", "date"];
-    const opts = { fields };
-    const parser = new Parser(opts);
-    const csv = parser.parse(subs);
+          <div className="form-check">
+            <input
+              type="checkbox"
+              name="intereses"
+              value="Eventos"
+              checked={formData.intereses.includes("Eventos")}
+              onChange={handleChange}
+              className="form-check-input"
+              id="intereses-eventos"
+            />
+            <label className="form-check-label" htmlFor="intereses-eventos">
+              Eventos
+            </label>
+          </div>
 
-    res.header("Content-Type", "text/csv");
-    res.attachment("suscriptores.csv");
-    return res.send(csv);
-  } catch (err) {
-    console.error("❌ Error exportando CSV:", err);
-    res.status(500).json({ error: "Error exportando CSV" });
-  }
-});
+          <div className="form-check">
+            <input
+              type="checkbox"
+              name="intereses"
+              value="Merch"
+              checked={formData.intereses.includes("Merch")}
+              onChange={handleChange}
+              className="form-check-input"
+              id="intereses-merch"
+            />
+            <label className="form-check-label" htmlFor="intereses-merch">
+              Merch
+            </label>
+          </div>
 
-// 🚀 Levantar servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Backend escuchando en http://localhost:${PORT}`);
-});
+          <div className="form-check">
+            <input
+              type="checkbox"
+              name="intereses"
+              value="Techno"
+              checked={formData.intereses.includes("Techno")}
+              onChange={handleChange}
+              className="form-check-input"
+              id="intereses-techno"
+            />
+            <label className="form-check-label" htmlFor="intereses-techno">
+              Techno
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" className="btn btn-dark w-100">
+          Suscribirse
+        </button>
+      </form>
+
+      {/* ✅ Toast de confirmación */}
+      {toastVisible && (
+        <div
+          className="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-4 show"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          style={{ zIndex: 1055 }}
+        >
+          <div className="d-flex">
+            <div className="toast-body">
+              🎉 Gracias por sumarte a la familia <b>TCQ</b>, ¡Vamos por todo!!
+            </div>
+            <button
+              type="button"
+              className="btn-close btn-close-white me-2 m-auto"
+              onClick={() => setToastVisible(false)}
+            ></button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
