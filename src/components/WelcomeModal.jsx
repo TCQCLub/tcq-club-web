@@ -23,7 +23,7 @@ export default function WelcomeModal() {
         <div className="modal-content bg-dark text-white text-center p-4">
           <h2 className="mb-3">TE DAMOS LA BIENVENIDA</h2>
           <p className="mb-3">
-            ESTE FINDE , NUEVO FORMATO BOILER , KID RIOT 50 AÑOS Y MINAU RADIO 
+            ESTA SEMANA FINDE XXL , JUEVES PRE FERIADO , VIERNES SE*TUP WIZARD , SABADO MINAU BDAY
           </p>
           <button
             className="btn-modern w-100"
