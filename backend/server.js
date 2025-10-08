@@ -1,7 +1,9 @@
+// ✅ backend/server.js
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import axios from "axios";
 import { Parser } from "json2csv";
 
 dotenv.config();
@@ -9,11 +11,15 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Middlewares
+// ==========================
+// 🔧 Middlewares
+// ==========================
 app.use(cors());
 app.use(express.json());
 
-// 📌 Conectar a MongoDB
+// ==========================
+// 🗄️ Conexión a MongoDB
+// ==========================
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
   console.error("❌ ERROR: falta la variable MONGO_URI en .env");
@@ -22,13 +28,15 @@ if (!MONGO_URI) {
 
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("✅ Conectado a MongoDB"))
+  .then(() => console.log("✅ Conectado a MongoDB Atlas"))
   .catch((err) => {
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
 
-// 📌 Modelo de Suscriptor
+// ==========================
+// 👥 Modelo de Suscriptor
+// ==========================
 const subscriberSchema = new mongoose.Schema({
   nombre: String,
   email: { type: String, unique: true },
@@ -40,12 +48,16 @@ const subscriberSchema = new mongoose.Schema({
 
 const Subscriber = mongoose.model("Subscriber", subscriberSchema);
 
-// 📌 Ruta de prueba
+// ==========================
+// 🧪 Ruta de prueba
+// ==========================
 app.get("/", (req, res) => {
-  res.send("🚀 API TCQ Club funcionando correctamente!");
+  res.send("🚀 API TCQ Club funcionando correctamente con integración Perfit!");
 });
 
-// 📌 Suscribir
+// ==========================
+// 📬 Ruta de Suscripción
+// ==========================
 app.post("/subscribe", async (req, res) => {
   try {
     const { nombre, email, ciudad, edad, intereses } = req.body;
@@ -54,8 +66,36 @@ app.post("/subscribe", async (req, res) => {
       return res.status(400).json({ error: "El email es obligatorio" });
     }
 
+    // 🔹 Guardar en MongoDB
     const nuevo = new Subscriber({ nombre, email, ciudad, edad, intereses });
     await nuevo.save();
+
+    // 🔹 Enviar a Perfit (si está configurado)
+    if (process.env.PERFIT_API_KEY && process.env.PERFIT_LIST_ID) {
+      const perfitURL = `https://api.myperfit.com/v1/lists/${process.env.PERFIT_LIST_ID}/contacts`;
+
+      const body = {
+        email,
+        name: nombre || "",
+        fields: {
+          ciudad: ciudad || "",
+          edad: edad || "",
+          intereses: intereses?.join(", ") || "",
+        },
+      };
+
+      try {
+        await axios.post(perfitURL, body, {
+          headers: {
+            Authorization: `Bearer ${process.env.PERFIT_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+        });
+        console.log(`✅ ${email} agregado también en Perfit`);
+      } catch (err) {
+        console.warn("⚠️ Error enviando a Perfit:", err.response?.data || err.message);
+      }
+    }
 
     res.json({ message: "✅ Suscripción exitosa" });
   } catch (err) {
@@ -64,7 +104,9 @@ app.post("/subscribe", async (req, res) => {
   }
 });
 
-// 📌 Listar todos los suscriptores
+// ==========================
+// 📋 Listar Suscriptores
+// ==========================
 app.get("/subscribers", async (req, res) => {
   try {
     const subs = await Subscriber.find().sort({ fecha: -1 });
@@ -74,7 +116,9 @@ app.get("/subscribers", async (req, res) => {
   }
 });
 
-// 📌 Exportar suscriptores en CSV
+// ==========================
+// 📦 Exportar CSV
+// ==========================
 app.get("/subscribers/export", async (req, res) => {
   try {
     const subs = await Subscriber.find();
@@ -90,7 +134,9 @@ app.get("/subscribers/export", async (req, res) => {
   }
 });
 
+// ==========================
 // 🚀 Levantar servidor
+// ==========================
 app.listen(PORT, () => {
-  console.log(`🚀 Backend escuchando en puerto ${PORT}`);
+  console.log(`🔥 Backend escuchando en puerto ${PORT}`);
 });

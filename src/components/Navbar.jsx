@@ -81,7 +81,7 @@ export default function Navbar() {
             </li>
             <li className="nav-item">
               <Link className="btn btn-pill btn-outline-pill" to="/suscripcion">
-                📩 Suscripción
+                Suscripción
               </Link>
             </li>
           </ul>
