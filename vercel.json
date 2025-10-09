@@ -1,7 +1,17 @@
 {
   "redirects": [
     {
-      "source": "/(.*)",
+      "source": "https://tcqlub.com/(.*)",
+      "destination": "https://www.tcqlub.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "http://tcqlub.com/(.*)",
+      "destination": "https://www.tcqlub.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "http://www.tcqlub.com/(.*)",
       "destination": "https://www.tcqlub.com/$1",
       "permanent": true
     }
