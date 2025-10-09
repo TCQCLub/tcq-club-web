@@ -20,6 +20,9 @@ import Events from "./components/pages/Events";
 import Suscripcion from "./components/pages/Suscripcion";
 import AdminLogin from "./components/pages/AdminLogin";
 import AdminSubscribers from "./components/pages/AdminSubscribers";
+import Minau from "./components/artistas/Minau.jsx";
+import Germano from "./components/artistas/Germano.jsx";
+import Lunatic from "./components/artistas/Lunatic.jsx";
 
 // Importamos el protector
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -39,7 +42,12 @@ export default function App() {
         <Route path="/fractalbar" element={<FractalBar />} />
         <Route path="/events" element={<Events />} />
         <Route path="/suscripcion" element={<Suscripcion />} />
-        
+
+        {/* Artistas */}
+        <Route path="/artistas/minau" element={<Minau />} />
+        <Route path="/artistas/germano" element={<Germano />} />
+        <Route path="/artistas/lunatic" element={<Lunatic />} />
+
         {/* Admin */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route
