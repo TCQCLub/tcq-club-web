@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion"; // 🌀 Importamos Framer Motion
 import API_BASE_URL from "../../config";
 
 export default function Suscripcion() {
@@ -38,6 +39,8 @@ export default function Suscripcion() {
         body: JSON.stringify(formData),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
         setToastVisible(true);
         setFormData({
@@ -47,20 +50,24 @@ export default function Suscripcion() {
           edad: "",
           intereses: [],
         });
-
         setTimeout(() => setToastVisible(false), 4000);
+      } else if (res.status === 409) {
+        alert("⚠️ Este email ya está suscripto a TCQ Club.");
+      } else if (res.status === 400) {
+        alert("⚠️ Faltan datos obligatorios. Completá todos los campos.");
       } else {
-        alert("⚠️ Hubo un error en la suscripción");
+        alert(`⚠️ Error: ${data.message || "Error en la suscripción."}`);
       }
     } catch (err) {
       console.error("❌ Error en fetch:", err);
-      alert("❌ Error de conexión con el servidor");
+      alert("❌ Error de conexión con el servidor.");
     }
   };
 
   return (
     <div className="container py-5">
       <h2 className="text-center mb-4">📝 Suscribite a TCQ Club</h2>
+
       <form
         onSubmit={handleSubmit}
         className="mx-auto"
@@ -120,50 +127,25 @@ export default function Suscripcion() {
         <div className="mb-3">
           <label className="form-label">Intereses</label>
 
-          <div className="form-check">
-            <input
-              type="checkbox"
-              name="intereses"
-              value="Eventos"
-              checked={formData.intereses.includes("Eventos")}
-              onChange={handleChange}
-              className="form-check-input"
-              id="intereses-eventos"
-            />
-            <label className="form-check-label" htmlFor="intereses-eventos">
-              Eventos
-            </label>
-          </div>
-
-          <div className="form-check">
-            <input
-              type="checkbox"
-              name="intereses"
-              value="Merch"
-              checked={formData.intereses.includes("Merch")}
-              onChange={handleChange}
-              className="form-check-input"
-              id="intereses-merch"
-            />
-            <label className="form-check-label" htmlFor="intereses-merch">
-              Merch
-            </label>
-          </div>
-
-          <div className="form-check">
-            <input
-              type="checkbox"
-              name="intereses"
-              value="Techno"
-              checked={formData.intereses.includes("Techno")}
-              onChange={handleChange}
-              className="form-check-input"
-              id="intereses-techno"
-            />
-            <label className="form-check-label" htmlFor="intereses-techno">
-              Techno
-            </label>
-          </div>
+          {["Eventos", "Merch", "Techno"].map((interes) => (
+            <div className="form-check" key={interes}>
+              <input
+                type="checkbox"
+                name="intereses"
+                value={interes}
+                checked={formData.intereses.includes(interes)}
+                onChange={handleChange}
+                className="form-check-input"
+                id={`intereses-${interes}`}
+              />
+              <label
+                className="form-check-label"
+                htmlFor={`intereses-${interes}`}
+              >
+                {interes}
+              </label>
+            </div>
+          ))}
         </div>
 
         <button type="submit" className="btn btn-dark w-100">
@@ -171,27 +153,34 @@ export default function Suscripcion() {
         </button>
       </form>
 
-      {/* ✅ Toast de confirmación */}
-      {toastVisible && (
-        <div
-          className="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-4 show"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-          style={{ zIndex: 1055 }}
-        >
-          <div className="d-flex">
-            <div className="toast-body">
-              🎉 Gracias por sumarte a la familia <b>TCQ</b>, ¡Vamos por todo!!
+      {/* 🟢 Toast animado con Framer Motion */}
+      <AnimatePresence>
+        {toastVisible && (
+          <motion.div
+            key="toast"
+            initial={{ opacity: 0, x: 100, y: 100, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 100, y: 100, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-4 show shadow-lg"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            style={{ zIndex: 1055 }}
+          >
+            <div className="d-flex">
+              <div className="toast-body">
+                🎉 Gracias por sumarte a la familia <b>TCQ</b>, ¡Vamos por todo!!
+              </div>
+              <button
+                type="button"
+                className="btn-close btn-close-white me-2 m-auto"
+                onClick={() => setToastVisible(false)}
+              ></button>
             </div>
-            <button
-              type="button"
-              className="btn-close btn-close-white me-2 m-auto"
-              onClick={() => setToastVisible(false)}
-            ></button>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
