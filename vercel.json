@@ -1,19 +1,26 @@
 {
   "redirects": [
     {
-      "source": "https://tcqlub.com/(.*)",
-      "destination": "https://www.tcqlub.com/$1",
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "tcqlub.com"
+        }
+      ],
+      "destination": "https://www.tcqlub.com/:splat",
       "permanent": true
     },
     {
-      "source": "http://tcqlub.com/(.*)",
-      "destination": "https://www.tcqlub.com/$1",
-      "permanent": true
-    },
-    {
-      "source": "http://www.tcqlub.com/(.*)",
-      "destination": "https://www.tcqlub.com/$1",
-      "permanent": true
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.tcqlub.com"
+        }
+      ],
+      "destination": "https://www.tcqlub.com/:splat",
+      "permanent": false
     }
   ]
 }
