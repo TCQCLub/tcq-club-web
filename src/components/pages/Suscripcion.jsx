@@ -48,7 +48,7 @@ export default function Suscripcion() {
           intereses: [],
         });
 
-        setTimeout(() => setToastVisible(false), 4000); // Se oculta solo
+        setTimeout(() => setToastVisible(false), 4000);
       } else {
         alert("⚠️ Hubo un error en la suscripción");
       }
