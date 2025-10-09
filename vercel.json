@@ -10,17 +10,6 @@
       ],
       "destination": "https://www.tcqlub.com/:splat",
       "permanent": true
-    },
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.tcqlub.com"
-        }
-      ],
-      "destination": "https://www.tcqlub.com/:splat",
-      "permanent": false
     }
   ]
 }
