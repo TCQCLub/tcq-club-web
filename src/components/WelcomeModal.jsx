@@ -23,7 +23,7 @@ export default function WelcomeModal() {
         <div className="modal-content bg-dark text-white text-center p-4">
           <h2 className="mb-3">TE DAMOS LA BIENVENIDA</h2>
           <p className="mb-3">
-            ESTE VIERNES RADIO MINAU , TCQ 180º w/ PANDY - GERMANO - TUMAS , SABADO CERRADO POR VEDA ELECTORAL
+            ESTE VIERNES RADIO MINAU , Sab ACID D 12 HORAS DE VINILOS - MINAU RADIO & FIESTA MEMENTO MORI (Frctl Bar)
           </p>
           <button
             className="btn-modern w-100"
