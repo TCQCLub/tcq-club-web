@@ -23,7 +23,7 @@ export default function WelcomeModal() {
         <div className="modal-content bg-dark text-white text-center p-4">
           <h2 className="mb-3">TE DAMOS LA BIENVENIDA</h2>
           <p className="mb-3">
-            Gracias por visitar nuestra web!!
+            Gracias por visitar nuestra web , enterate de las ultimas novedades !!
           </p>
           <button
             className="btn-modern w-100"
