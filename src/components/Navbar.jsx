@@ -67,6 +67,11 @@ export default function Navbar() {
                 Events
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link modern-link" to="/wallet">
+                Billetera / Wallet
+              </Link>
+            </li>
 
             {/* Botones especiales */}
             <li className="nav-item">

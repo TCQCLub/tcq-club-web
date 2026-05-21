@@ -18,6 +18,7 @@ import Merch from "./components/pages/Merch";
 import FractalBar from "./components/pages/FractalBar";
 import Events from "./components/pages/Events";
 import Suscripcion from "./components/pages/Suscripcion";
+import Wallet from "./components/pages/Wallet";
 import AdminLogin from "./components/pages/AdminLogin";
 import AdminSubscribers from "./components/pages/AdminSubscribers";
 import Minau from "./components/artistas/Minau.jsx";
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="/merch" element={<Merch />} />
         <Route path="/fractalbar" element={<FractalBar />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/wallet" element={<Wallet />} />
         <Route path="/suscripcion" element={<Suscripcion />} />
 
         {/* Artistas */}

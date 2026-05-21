@@ -1,0 +1,465 @@
+/* styles for TCQ Wallet Page */
+
+.tcq-wallet-page {
+  padding: 120px 40px 60px; /* Incrementamos el padding top para compensar el navbar fixed-top de esta web */
+  background-color: #0a0a0f;
+  color: var(--color-text, #ffffff);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-ui, 'DM Sans', sans-serif);
+}
+
+/* Glassmorphism utility card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* SECTION TENSION & TITLES */
+.section-title {
+  font-family: var(--font-display, 'Bebas Neue', sans-serif);
+  font-size: 3.5rem;
+  letter-spacing: 4px;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* HERO SECTION */
+.wallet-hero {
+  position: relative;
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(200, 255, 0, 0.1) 0%, rgba(200, 255, 0, 0) 70%);
+  filter: blur(60px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.platform-tag {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.85rem;
+  color: #c8ff00;
+  letter-spacing: 4px;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.hero-title {
+  font-family: var(--font-display, 'Bebas Neue', sans-serif);
+  font-size: 6.5rem;
+  letter-spacing: 6px;
+  color: #ffffff;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: var(--color-text-secondary, #888888);
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+}
+
+/* BUTTONS */
+.btn-wallet-cta {
+  display: inline-block;
+  font-family: var(--font-display, 'Bebas Neue', sans-serif);
+  font-size: 1.25rem;
+  letter-spacing: 3px;
+  padding: 16px 40px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.btn-pulse {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-pulse:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.05);
+}
+
+.btn-neon {
+  background-color: #c8ff00;
+  color: #000000;
+  border: 1px solid #c8ff00;
+}
+
+.btn-neon:hover {
+  background-color: transparent;
+  color: #c8ff00;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(200, 255, 0, 0.2);
+}
+
+/* INFO SECTION (¿QUÉ ES?) */
+.wallet-info-section {
+  margin-bottom: 100px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.info-description {
+  font-size: 1.15rem;
+  color: var(--color-text-secondary, #888888);
+  line-height: 1.8;
+}
+
+.info-description strong {
+  color: #ffffff;
+}
+
+/* Mockup Card Design */
+.mockup-card {
+  width: 100%;
+  max-width: 340px;
+  height: 200px;
+  padding: 24px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  transform: rotate(-3deg);
+  transition: transform 0.5s ease;
+}
+
+.mockup-card:hover {
+  transform: rotate(0deg) scale(1.05);
+  border-color: rgba(200, 255, 0, 0.3);
+  box-shadow: 0 30px 60px rgba(200, 255, 0, 0.05);
+}
+
+.mockup-header {
+  display: flex;
+  gap: 6px;
+}
+
+.mockup-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.mockup-card:hover .mockup-dot {
+  background: #c8ff00;
+}
+
+.mockup-balance-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--color-text-secondary, #888888);
+}
+
+.mockup-balance-amount {
+  font-family: var(--font-display, sans-serif);
+  font-size: 2.2rem;
+  color: #ffffff;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+.mockup-card-number {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary, #888888);
+  margin-top: 15px;
+}
+
+.mockup-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 12px;
+  font-size: 0.75rem;
+}
+
+.mockup-status {
+  font-family: var(--font-mono, monospace);
+  color: #c8ff00;
+  letter-spacing: 1px;
+}
+
+.mockup-points {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* HOW IT WORKS SECTION (PASOS) */
+.how-it-works-section {
+  margin-bottom: 120px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.step-card {
+  padding: 40px 30px;
+  position: relative;
+  border-radius: 8px;
+}
+
+.step-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(200, 255, 0, 0.2);
+}
+
+.step-number {
+  font-family: var(--font-display, sans-serif);
+  font-size: 3rem;
+  color: rgba(200, 255, 0, 0.15);
+  letter-spacing: 2px;
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  font-weight: 800;
+  transition: color 0.3s ease;
+}
+
+.step-card:hover .step-number {
+  color: rgba(200, 255, 0, 0.8);
+}
+
+.step-title {
+  font-family: var(--font-display, sans-serif);
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.step-text {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary, #888888);
+  line-height: 1.6;
+}
+
+.highlight-link {
+  color: #c8ff00;
+  border-bottom: 1px dashed rgba(200, 255, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.highlight-link:hover {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+/* BENEFITS SECTION */
+.benefits-section {
+  margin-bottom: 120px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.benefit-card {
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 8px;
+}
+
+.benefit-card:hover {
+  border-color: rgba(200, 255, 0, 0.2);
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.benefit-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background: rgba(200, 255, 0, 0.05);
+  border: 1px solid rgba(200, 255, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #c8ff00;
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon-wrapper {
+  background: #c8ff00;
+  color: #000000;
+  box-shadow: 0 0 20px rgba(200, 255, 0, 0.3);
+}
+
+.benefit-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.benefit-title {
+  font-family: var(--font-display, sans-serif);
+  font-size: 1.75rem;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.benefit-text {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary, #888888);
+  line-height: 1.6;
+}
+
+/* FINAL CTA SECTION */
+.wallet-final-cta {
+  position: relative;
+  padding: 60px 0;
+  margin-bottom: 40px;
+}
+
+.cta-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(200, 255, 0, 0.07) 0%, rgba(200, 255, 0, 0) 80%);
+  filter: blur(50px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 2;
+  padding: 60px;
+  text-align: center;
+  border-radius: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cta-content:hover {
+  border-color: rgba(200, 255, 0, 0.25);
+  box-shadow: 0 20px 50px rgba(200, 255, 0, 0.03);
+}
+
+.cta-title {
+  font-family: var(--font-display, sans-serif);
+  font-size: 3.8rem;
+  letter-spacing: 4px;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  line-height: 1.1;
+}
+
+.cta-description {
+  font-size: 1.15rem;
+  color: var(--color-text-secondary, #888888);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 991px) {
+  .hero-title {
+    font-size: 4.5rem;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  
+  .mockup-card {
+    transform: rotate(0);
+  }
+  
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 575px) {
+  .tcq-wallet-page {
+    padding: 100px 20px 40px;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .cta-title {
+    font-size: 2.2rem;
+  }
+  
+  .cta-content {
+    padding: 40px 20px;
+  }
+}
