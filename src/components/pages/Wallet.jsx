@@ -137,6 +137,84 @@ export default function Wallet() {
         </div>
       </section>
 
+      {/* EVENTOS SECTION */}
+      <section className="wallet-events-section">
+        <div className="info-grid">
+          <div className="info-text-block">
+            <h2 className="section-title">TODOS LOS EVENTOS EN UN LUGAR</h2>
+            <p className="info-description">
+              Desde la wallet podés ver todos los eventos próximos de <strong>TCQ Club</strong>, comprar tus entradas y tenerlas guardadas directamente en la app para ingresar al club de la forma más rápida y ágil.
+            </p>
+            <a
+              href="https://tickets.tcqlub.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-wallet-cta btn-pulse"
+              style={{ marginTop: "1.5rem" }}
+            >
+              VER EVENTOS
+            </a>
+          </div>
+          <div className="info-visual-block">
+            <div className="glass-card ticket-mockup-card">
+              <div className="ticket-header">
+                <span className="ticket-brand">TCQ TICKETS</span>
+                <span className="ticket-status-dot"></span>
+              </div>
+              <div className="ticket-body">
+                <div className="ticket-event-name">BERGHAIN NIGHT</div>
+                <div className="ticket-date">SÁBADO 23 MAY • 23:55 HS</div>
+                <div className="ticket-details">GENERAL ENTRY • ACCESO DIRECTO</div>
+              </div>
+              <div className="ticket-footer">
+                <div className="ticket-barcode">
+                  <span className="bar"></span>
+                  <span className="bar"></span>
+                  <span className="bar"></span>
+                  <span className="bar"></span>
+                  <span className="bar"></span>
+                  <span className="bar"></span>
+                  <span className="bar"></span>
+                  <span className="bar"></span>
+                  <span className="bar"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MEMBRESÍAS SECTION */}
+      <section className="wallet-memberships-section">
+        <h2 className="section-title text-center">MEMBRESÍAS TCQ</h2>
+        <div className="memberships-grid">
+          <div className="membership-card glass-card gold-tier">
+            <div className="membership-badge-row">
+              <span className="badge-tier gold-badge">GOLD</span>
+              <span className="badge-status">PRÓXIMAMENTE</span>
+            </div>
+            <h3 className="membership-tier-title">GOLD MEMBERSHIP</h3>
+            <p className="membership-desc">
+              Acceso prioritario a preventas de tickets, descuentos exclusivos en barras de Fractal Bar, puntos TCQ duplicados y fila preferencial de ingreso en puerta.
+            </p>
+          </div>
+
+          <div className="membership-card glass-card black-tier">
+            <div className="membership-badge-row">
+              <span className="badge-tier black-badge">BLACK</span>
+              <span className="badge-status">PRÓXIMAMENTE</span>
+            </div>
+            <h3 className="membership-tier-title">BLACK MEMBERSHIP</h3>
+            <p className="membership-desc">
+              El nivel máximo de experiencia TCQ. Entrada libre sin cargo en eventos seleccionados, acceso al backstage y áreas exclusivas, y atención personalizada para mesas VIP.
+            </p>
+          </div>
+        </div>
+        <p className="memberships-note text-center">
+          Pronto más información sobre nuestros planes exclusivos
+        </p>
+      </section>
+
       {/* FINAL CALL TO ACTION */}
       <section className="wallet-final-cta">
         <div className="cta-glow"></div>
